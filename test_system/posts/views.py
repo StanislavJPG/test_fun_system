@@ -58,3 +58,12 @@ class PostView(APIView):
             res = serializers.ValidationError({'message': 'Post does not exist'})
             res.status_code = status.HTTP_404_NOT_FOUND
             raise res
+
+    def delete(self, request, post_id: int):
+        try:
+            Post.objects.get(pk=post_id).delete()
+            return JsonResponse({'status': status.HTTP_200_OK})
+        except ObjectDoesNotExist:
+            res = serializers.ValidationError({'message': 'Post does not exist'})
+            res.status_code = status.HTTP_404_NOT_FOUND
+            raise res
